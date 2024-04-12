@@ -13,6 +13,7 @@
       <ul>
         <li><a href="#core">Core</a></li>
         <li><a href="#infrastructure">Infrastructure</a></li>
+        <li><a href="#eventHandlers">EventHandlers</a></li>
       </ul>
     </li>
     <li><a href="#getting-started">Getting Started</a>
@@ -79,7 +80,14 @@ The system adopts a modular architecture inspired by the principles of Hexagonal
 #### Database
 - **BooksDbContext**: Infrastructure related to SQL in memory database operations, including entity configurations and migrations. This component is crucial for data persistence and retrieval, supporting the application's data storage needs. For this example was used an in memory database but this is easily changed in the configuration.
 
-
+### EventHandlers
+- **InMemoryEventBus**: The InMemoryEventBus provides a lightweight, in-memory event bus implementation for handling events within your application. It allows for decoupling between event publishers and subscribers, enabling flexible and efficient communication between different parts of the system.
+  
+  -  **Features**:
+    1. Event Subscription: Subscribe event handlers to specific event types.
+    2. Event Publishing: Publish events to the event bus for processing by subscribed handlers.
+    3. Loosely Coupled Communication: Facilitates communication and coordination between different components of the application through loosely coupled events.
+ 
 ## Getting Started
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
