@@ -1,14 +1,14 @@
 using backend.Application.Repository;
 using backend.Application.UseCases.SearchBooksUseCase;
 using backend.Application.UseCases.SearchBooksUseCase.Abstractions;
+using backend.Application.UseCases.SearchBooksUseCase.Events;
 using backend.Infrastructure;
+using backend.Infrastructure.EventHandlers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -23,12 +23,24 @@ builder.Services.AddCors(options =>
         });
 });
 
-
 builder.Services.AddDbContext<BooksDbContext>(options => options.UseInMemoryDatabase("books"));
+
+// repository
 builder.Services.AddTransient<IBookRepository, BookRepository>();
+
+// usecase
 builder.Services.AddTransient<ISearchBooksUseCase, SearchBooksUseCase>();
 
+// event-handlers
+builder.Services.AddSingleton<SearchBooksEventHandler>();
+builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
+
 var app = builder.Build();
+
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+var eventHandler = app.Services.GetRequiredService<SearchBooksEventHandler>();
+eventBus.Subscribe<SearchBooksEvent, SearchBooksEventHandler>(eventHandler);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
