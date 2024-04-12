@@ -1,67 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Royal Library</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    label {
-        display: block;
-        margin-bottom: 8px;
-    }
-    select, input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-size: 16px;
-    }
-    button {
-        background-color: #4caf50;
-        color: #fff;
-        padding: 14px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    button:hover {
-        background-color: #45a049;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 12px;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Library</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -101,46 +44,7 @@
     </table>
 </div>
 
-<script>
-    function fetchBooks() {
-        const fieldName = document.getElementById("fieldName").value;
-        const value = document.getElementById("value").value;
-
-        // Construct the URL with parameters
-        const url = `http://localhost:5021/Books?FieldName=${fieldName}&Value=${value}`;
-
-        fetch(url, { mode: 'cors' })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(error => {
-                        throw new Error(error.errors.Value[0] || 'Bad request');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                const tableBody = document.getElementById("booksTableBody");
-                tableBody.innerHTML = "";
-
-                data.forEach(book => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${book.title}</td>
-                        <td>${book.name}</td>
-                        <td>${book.type}</td>
-                        <td>${book.isbn}</td>
-                        <td>${book.category}</td>
-                        <td>${book.copies}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.log(error)
-                alert('Bad request: ' + error.message);
-            });
-    }
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
